@@ -2,7 +2,8 @@ import React from 'react';
 import LoginForm from '../forms/LoginForm';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { login } from '../../action/action.js'
+import { login } from '../../action/action.js';
+import Footer from '../footer';
 
 class LoginPages extends React.Component {
 
@@ -33,9 +34,7 @@ class LoginPages extends React.Component {
           </header>
         </div>
 
-        <nav className="navbar navbar-default navbar-fixed-bottom footer">
-          <span className="copyright"> <span styles="{{color:#42cbf4;}}">Transion 1.0.0 </span> &copy 2017</span>
-        </nav>
+        <Footer />
       </div>
     )
   }
