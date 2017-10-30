@@ -39,7 +39,7 @@ class Header extends React.Component {
     }
 }
 
-Header.ProptTypes = {
+Header.PropTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired
     }).isRequired,

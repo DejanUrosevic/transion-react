@@ -1,0 +1,1 @@
+export const mappingUrl = "http://localhost:8080/mapping";

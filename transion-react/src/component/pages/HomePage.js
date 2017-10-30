@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from '../header';
 import Footer from '../footer';
-
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
+import { newMapping } from '../../action/action';
+import { Redirect, withRouter } from 'react-router-dom'; 
 
 class HomePage extends React.Component {
 
@@ -9,12 +12,18 @@ class HomePage extends React.Component {
         super(props);
         this.showAgencies = this.showAgencies.bind(this);
         this.showImports = this.showImports.bind(this);
+        this.showConfiguration = this.showConfiguration.bind(this);
+        this.showMappings = this.showMappings.bind(this);
+        this.showNewAgencyMapping = this.showNewAgencyMapping.bind(this);
         this.state = {
             agenciesButtonStyle : {},
             importsButtonStyle: {},
+            configurationButton: {},
             hr1Style: {display:'none'},
             agenciesStyle: {display:'none'},
-            importsStyle: {display:'none'}
+            importsStyle: {display:'none'},
+            configurationsStyle: {display: 'none'},
+            mappingsStyle: {display: 'none'}
         };
     }
 
@@ -26,9 +35,12 @@ class HomePage extends React.Component {
         this.setState({
             agenciesButtonStyle: {padding: '40px', backgroundColor: '#CCC', borderColor: 'rgba(0,0,0,0.9)'},
             importsButtonStyle: {padding: '30px 30px', backgroundColor: '#699DB6', borderColor: 'rgba(0,0,0,0.3)'},
+            configurationButton : {},
             hr1Style: {display: 'block'},
             agenciesStyle: {display: 'block'},
-            importsStyle: {display: 'none'}
+            importsStyle: {display: 'none'},
+            configurationsStyle: {display: 'none'},
+            mappingsStyle: {display: 'none'}
         });
     };
 
@@ -36,16 +48,45 @@ class HomePage extends React.Component {
         this.setState({
             agenciesButtonStyle: {padding: '30px 30px', backgroundColor: '#eee', borderColor: 'rgba(0,0,0,0.3)'},
             importsButtonStyle: {padding: '40px', backgroundColor: '#3C677B', borderColor: 'rgba(0,0,0,0.9)'},
+            configurationButton : {},
             hr1Style: {display: 'block'},
             agenciesStyle: {display: 'none'},
-            importsStyle: {display: 'block'}
+            importsStyle: {display: 'block'},
+            configurationsStyle: {display: 'none'},
+            mappingsStyle: {display: 'none'}
         });
-        /* document.getElementById("importsButton").setAttribute("style", " padding: 40px; background-color: #3C677B; border-color: rgba(0,0,0,0.9);");
-        document.getElementById("agenciesButton").setAttribute("style", "padding: 30px 30px; background-color: #eee; border-color: rgba(0,0,0,0.3);")
-        document.getElementById("hr1").style.display = "block";
-        document.getElementById("agencies").style.display = "none";
-        document.getElementById("imports").style.display = "block"; */
     };
+
+    showConfiguration = () => {
+        this.setState({
+            agenciesButtonStyle: {},
+            importsButtonStyle: {},
+            configurationButton : {padding: '40px', backgroundColor: '#CCC', borderColor: 'rgba(0,0,0,0.9)'},
+            hr1Style: {display: 'block'},
+            agenciesStyle: {display: 'none'},
+            importsStyle: {display: 'none'},
+            configurationsStyle: {display: 'block'},
+            mappingsStyle: {display: 'none'}
+        });
+    };
+
+    showMappings = () => {
+        this.setState({
+            agenciesButtonStyle: {},
+            importsButtonStyle: {},
+            configurationButton : {padding: '40px', backgroundColor: '#CCC', borderColor: 'rgba(0,0,0,0.9)'},
+            hr1Style: {display: 'block'},
+            agenciesStyle: {display: 'none'},
+            importsStyle: {display: 'none'},
+            configurationsStyle: {display: 'block'},
+            mappingsStyle: {display: 'block'}
+        });
+    }
+
+    showNewAgencyMapping = () => {
+        this.props.newMapping();
+        this.props.history.push("/mapping/new");
+    }
 
     render() {
       return (
@@ -59,11 +100,11 @@ class HomePage extends React.Component {
             <div className="row">
                 <div align="center" className="animated fadeInUp">
                     <p>
-                        <a ref="agenciesButton" href="#" className="btn" style={this.state.agenciesButtonStyle} onClick={this.showAgencies}>Agencies</a>  
+                        <a ref={(input) => { this.textInput = input; }} href="#" className="btn" style={this.state.agenciesButtonStyle} onClick={this.showAgencies}>Agencies</a>  
                         <a ref="importsButton" href="#" className="btn btn-blue" style={this.state.importsButtonStyle} onClick={this.showImports} >Import</a>
                         <a href="#" className="btn btn-red">Export</a>
-                        <a href="/tables" className="btn btn-green">Tables</a>
-                        <a href="#" className="btn btn-green">Configurations</a>
+                        <a href="#" className="btn btn-green">Tables</a>
+                        <a href="#" className="btn btn-green" style={this.state.configurationButton} onClick={this.showConfiguration} >Configurations</a>
                     </p>	
                 </div>
             </div>
@@ -90,10 +131,31 @@ class HomePage extends React.Component {
                 </p>	
             </div>
 
+            <div id="configurations" align="center" className="animated fadeInDown" style={this.state.configurationsStyle} >
+                <p>
+                    <a href="#" className="btn" onClick={this.showMappings} >Mapping</a>
+                    <a href="#" className="btn btn-blue">Import new file</a>
+                    <a href="#" className="btn btn-red">Something else</a>
+                    <a href="#" className="btn btn-green">Search</a>
+                </p>
+            </div>
+
+            <div id="mappings" align="center" className="animated fadeInDown" style={this.state.mappingsStyle} >
+                <p>
+                    <a className="btn" onClick={this.showNewAgencyMapping} >New agency mapping</a>
+                    <a href="#" className="btn">New transaction mapping</a>
+                    <a href="#" className="btn">All mappinh</a>
+                </p>
+            </div>
+
             <Footer />
         </div>
       )
     }
-};
+}
 
-export default HomePage;
+HomePage.PropTypes = {
+    newMapping: PropTypes.func.isRequired
+}
+
+export default withRouter(connect(null, { newMapping })(HomePage));

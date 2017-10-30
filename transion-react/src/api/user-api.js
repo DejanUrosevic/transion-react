@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-var self = this;
-
 export default {
     user: {
         login: (user) => 
