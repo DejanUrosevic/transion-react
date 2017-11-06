@@ -2,17 +2,27 @@ import React, { Component } from 'react';
 import Header from '../header';
 import Footer from '../footer';
 import { PropTypes } from 'prop-types';
-import { selectFieldForMapping } from '../../action/action';
+import { selectFieldForMapping, saveMapping } from '../../action/action';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { DragDropContainer, DropTarget } from 'react-drag-drop-container';
+import Box from '../draganddrop/Box';
+import BoxItem from '../draganddrop/BoxItem';
 
 class MappingNewPage extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {fields: []};
+        this.state = {
+                        fields: [],
+                        items: [],
+                        divStyle: {
+                            border: '2px solid black'
+                        }
+                     };
         this.loadFields = this.loadFields.bind(this);
+        this.addField = this.addField.bind(this);
+        this.saveMapping = this.saveMapping.bind(this);
     }
     
     componentDidMount() {
@@ -23,30 +33,68 @@ class MappingNewPage extends React.Component {
         var self = this;
         this.props.selectFieldForMapping()
             .then(function(response){
-                self.setState({fields: response});
+                var items = self.state.items;
+                var fields = self.state.fields;
+                for(var i = 0; i < response.length; i++){
+                    if(response[i].required){
+                        items.push(response[i]);
+                    }else{
+                        fields.push(response[i]);
+                    }
+                }
+                
+                self.setState({fields: fields, items : items});
             });
+    };
+
+    addField(field){
+        this.state.items.push(field);
+    }
+
+    saveMapping(){
+        this.props.saveMapping(this.state.items)
+            .then(function(response){
+                console.log(response);
+            });
+        this.state.items.forEach(function(field){
+            console.log(field.name);
+        })
     }
 
     render() {
+        
       return (
         <div className = "b2">
             <Header />
-                <p> Fields <br/>
+            <div className="panel panel-default">
+                <div className="panel-heading"><p> Fields <br/></p></div>
+                <div className="panel-body">
                 {
                     this.state.fields.map(function(field){
-                        return <div>
-                                    <DragDropContainer targetKey="foo" >
+                        return (<div key = {field.name}>
+                                    <DragDropContainer targetKey="foo"  onDragStart={()=>(console.log('start'))}
+                                                                        onDrag={()=>(console.log('dragging'))}
+                                                                        onDragEnd={()=>(console.log('end'))}
+                                                                        onDrop={(e)=>(console.log('daadadadadas'))}
+                                                                        dragData={field}>
                                         <div styles="{{border-style: 'solid;'}}">{field.name}</div>
                                     </DragDropContainer><br/>
-                                </div>
+                                </div>)
                     })
                 }
-                </p>
-                
+                </div>
+            </div>  
+            <div className="panel panel-default">
+                <div className="panel-heading"><p> Fields <br/></p></div>
+                <div className="panel-body">    
+                    <Box targetKey="foo" items={this.state.items} addItem={this.addField}/>
+                    
+                </div>
+                <button type="button" className="btn btn-success" onClick={this.saveMapping}>Success</button>
+            </div> 
 
-                <DropTarget targetKey="foo" >
-                    <p>I'm a valid drop target for the object above since we both have the same targetKey!</p>
-                </DropTarget>
+           
+                
             <Footer />
         </div>
       )
@@ -54,7 +102,8 @@ class MappingNewPage extends React.Component {
 }
 
 MappingNewPage.PropTypes = {
-    selectFieldForMapping : PropTypes.func.isRequired
+    selectFieldForMapping : PropTypes.func.isRequired,
+    saveMapping : PropTypes.func.isRequired
 }
 
-export default withRouter(connect(null, { selectFieldForMapping })(MappingNewPage));
+export default withRouter(connect(null, { selectFieldForMapping, saveMapping })(MappingNewPage));

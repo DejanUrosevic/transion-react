@@ -1,4 +1,4 @@
-import { NEW_MAPPING, ALL_MAPPING } from '../types';
+import { NEW_MAPPING, ALL_MAPPING, SAVE_MAPPING } from '../types';
 
 export default function MappingReducer(state = {}, action ={}){
     switch(action.type){
@@ -6,6 +6,8 @@ export default function MappingReducer(state = {}, action ={}){
             return {};
         case ALL_MAPPING:
             return action.mappings;
+        case SAVE_MAPPING:
+            return action.mapping;
         default:
             return state;
     }

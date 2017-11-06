@@ -10,6 +10,18 @@ export default {
                 .then(function(response){
                     return response.data;
                 })
-        } 
+        },
+        
+        saveMapping1: function(mapping){
+            axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
+            return axios.post(mappingUrl, {fields : mapping})
+                .then(function(response){
+                    console.log(response);
+                    return response;
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
     }   
 }
