@@ -14,7 +14,7 @@ export default {
         
         saveMapping1: function(mapping){
             axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
-            return axios.post(mappingUrl, {fields : mapping})
+            return axios.post(mappingUrl, mapping)
                 .then(function(response){
                     console.log(response);
                     return response;

@@ -18,11 +18,13 @@ class MappingNewPage extends React.Component {
                         items: [],
                         divStyle: {
                             border: '2px solid black'
-                        }
+                        },
+                        label: ''
                      };
         this.loadFields = this.loadFields.bind(this);
         this.addField = this.addField.bind(this);
         this.saveMapping = this.saveMapping.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
     
     componentDidMount() {
@@ -52,47 +54,76 @@ class MappingNewPage extends React.Component {
     }
 
     saveMapping(){
-        this.props.saveMapping(this.state.items)
+        var mapping = {
+            label: this.state.label,
+            type: 'CLIENT',
+            fields: this.state.items
+        }
+        this.props.saveMapping(mapping)
             .then(function(response){
                 console.log(response);
             });
-        this.state.items.forEach(function(field){
-            console.log(field.name);
-        })
+        
+        this.props.history.push("/home");
     }
+
+    onChange = e =>
+    this.setState({
+        label : e.target.value
+    });
 
     render() {
         
       return (
         <div className = "b2">
             <Header />
-            <div className="panel panel-default">
-                <div className="panel-heading"><p> Fields <br/></p></div>
-                <div className="panel-body">
-                {
-                    this.state.fields.map(function(field){
-                        return (<div key = {field.name}>
-                                    <DragDropContainer targetKey="foo"  onDragStart={()=>(console.log('start'))}
-                                                                        onDrag={()=>(console.log('dragging'))}
-                                                                        onDragEnd={()=>(console.log('end'))}
-                                                                        onDrop={(e)=>(console.log('daadadadadas'))}
-                                                                        dragData={field}>
-                                        <div styles="{{border-style: 'solid;'}}">{field.name}</div>
-                                    </DragDropContainer><br/>
-                                </div>)
-                    })
-                }
+            
+            <div className="container-fluid">  
+                <div className="panel-group text-center" style={{backgroundColor:'white'}}>
+                    <div className="panel panel-default">
+                        <div className="panel-heading"><p> Label <br/></p></div>
+                        <div className="panel-body">
+                            <input
+                                id="label" 
+                                name="label"
+                                size="30"
+                                value={this.state.label}
+                                onChange={this.onChange}
+                                required  
+                                className="form-control" />
+                        </div>
+                    </div>
+                    <div className="panel panel-default">
+                        <div className="panel-heading"><p> Fields <br/></p></div>
+                        <div className="panel-body">
+                        {
+                            this.state.fields.map(function(field){
+                                return (<div key = {field.name}>
+                                            <DragDropContainer targetKey="foo"  onDragStart={()=>(console.log('start'))}
+                                                                                onDrag={()=>(console.log('dragging'))}
+                                                                                onDragEnd={()=>(console.log('end'))}
+                                                                                onDrop={(e)=>(console.log('daadadadadas'))}
+                                                                                dragData={field}>
+                                                <div styles="{{border-style: 'solid;'}}">{field.name}</div>
+                                            </DragDropContainer><br/>
+                                        </div>)
+                            })
+                        }
+                        </div>
+                    </div>
+                    <div className="panel panel-default">
+                        <div className="panel-heading"><p> Fields <br/></p></div>
+                        <div className="panel-body">    
+                            <Box targetKey="foo" items={this.state.items} addItem={this.addField}/>
+                        </div>
+                    </div> 
+                    <div className="panel panel-default">
+                        <div className="panel-body">    
+                            <button type="button" className="btn btn-success" onClick={this.saveMapping}>Success</button>
+                        </div>
+                    </div> 
                 </div>
-            </div>  
-            <div className="panel panel-default">
-                <div className="panel-heading"><p> Fields <br/></p></div>
-                <div className="panel-body">    
-                    <Box targetKey="foo" items={this.state.items} addItem={this.addField}/>
-                    
-                </div>
-                <button type="button" className="btn btn-success" onClick={this.saveMapping}>Success</button>
-            </div> 
-
+            </div>
            
                 
             <Footer />
