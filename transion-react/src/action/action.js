@@ -1,5 +1,5 @@
 import { USER_LOGGED_IN, USER_LOGGED_OUT, NEW_MAPPING, SELECT_FIELDS_FOR_MAPPING,
-    SAVE_MAPPING} from '../types';
+    SAVE_MAPPING, ALL_MAPPINGS} from '../types';
 import userApi from '../api/user-api';
 import mappingApi from '../api/mapping-api';
 import fieldApi from '../api/field-api';
@@ -13,20 +13,25 @@ export const userLoggedOut = () => ({
     type: USER_LOGGED_OUT
 });
 
-export const newMappingAction = () =>({
+export const newMappingAction = () => ({
     type: NEW_MAPPING
     
 });
 
-export const saveMappingAction = (mapping) =>({
+export const saveMappingAction = (mapping) => ({
     type: SAVE_MAPPING,
     mapping
 })
 
-export const fieldForMappingAction = (fields) =>({
+export const fieldForMappingAction = (fields) => ({
     type: SELECT_FIELDS_FOR_MAPPING,
     fields
 });
+
+export const allMappingsAction = (mappings) => ({
+    type: ALL_MAPPINGS,
+    mappings
+})
 
 export const login = credentials => dispatch => 
     userApi.user.login(credentials)
@@ -46,6 +51,14 @@ export const newMapping = () => dispatch => {
     dispatch(newMappingAction());
 }
 
+export const allMappings = () => dispatch => 
+    mappingApi.mapping.getAll()
+        .then(function(response){
+            dispatch(allMappings(response));
+            return response;
+        });
+
+
 export const saveMapping = (mapping) => dispatch => 
     mappingApi.mapping.saveMapping1(mapping)
         .then(function(response){
@@ -53,8 +66,8 @@ export const saveMapping = (mapping) => dispatch =>
         });
 
 
-export const selectFieldForMapping = () => dispatch =>
-    fieldApi.field.getAll()
+export const selectFieldForMapping = (mappingtype) => dispatch =>
+    fieldApi.field.getAll(mappingtype)
         .then(function(response){
             dispatch(fieldForMappingAction(response));
             return response;

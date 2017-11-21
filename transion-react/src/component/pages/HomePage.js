@@ -15,6 +15,8 @@ class HomePage extends React.Component {
         this.showConfiguration = this.showConfiguration.bind(this);
         this.showMappings = this.showMappings.bind(this);
         this.showNewAgencyMapping = this.showNewAgencyMapping.bind(this);
+        this.showNewTransactionMapping = this.showNewTransactionMapping.bind(this);
+        this.showAllMapping = this.showAllMapping.bind(this);
         this.state = {
             agenciesButtonStyle : {},
             importsButtonStyle: {},
@@ -23,7 +25,8 @@ class HomePage extends React.Component {
             agenciesStyle: {display:'none'},
             importsStyle: {display:'none'},
             configurationsStyle: {display: 'none'},
-            mappingsStyle: {display: 'none'}
+            mappingsStyle: {display: 'none'},
+            mappingType:''
         };
     }
 
@@ -83,9 +86,18 @@ class HomePage extends React.Component {
         });
     }
 
-    showNewAgencyMapping = () => {
+    showNewAgencyMapping() {
         this.props.newMapping();
-        this.props.history.push("/mapping/new");
+        this.props.history.push("/mapping/new/" + "client");
+    }
+
+    showNewTransactionMapping() {
+        this.props.newMapping();
+        this.props.history.push("/mapping/new/" + "transaction");
+    }
+
+    showAllMapping() {
+        this.props.history.push("/mapping");
     }
 
     render() {
@@ -143,8 +155,8 @@ class HomePage extends React.Component {
             <div id="mappings" align="center" className="animated fadeInDown" style={this.state.mappingsStyle} >
                 <p>
                     <a className="btn" onClick={this.showNewAgencyMapping} >New agency mapping</a>
-                    <a href="#" className="btn">New transaction mapping</a>
-                    <a href="#" className="btn">All mappinh</a>
+                    <a className="btn" onClick={this.showNewTransactionMapping}>New transaction mapping</a>
+                    <a className="btn" onClick={this.showAllMapping}>All mapping</a>
                 </p>
             </div>
 
@@ -155,7 +167,7 @@ class HomePage extends React.Component {
 }
 
 HomePage.PropTypes = {
-    newMapping: PropTypes.func.isRequired
+    newMapping: PropTypes.func.isRequired,
 }
 
 export default withRouter(connect(null, { newMapping })(HomePage));

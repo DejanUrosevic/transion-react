@@ -19,7 +19,7 @@ class App extends React.Component {
         <Route path="/mapping" exact render={() => (
           t !== null ? <MappingPage /> : <Redirect to="/" />
         )} />
-        <Route path="/mapping/new" exact render={() => (
+        <Route path="/mapping/new/:type" exact render={() => (
           t !== null ? <MappingNewPage /> : <Redirect to="/" />
         )} />
       </div>

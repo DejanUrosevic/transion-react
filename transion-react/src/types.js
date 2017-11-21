@@ -10,7 +10,7 @@ export const NEW_IMPORT_TRANSACTION = "NEW_IMPORT_TRANSACTION";
 
 //mapping
 export const NEW_MAPPING = "NEW_MAPPING";
-export const ALL_MAPPING = "ALL_MAPPING";
+export const ALL_MAPPINGS = "ALL_MAPPINGS";
 export const SAVE_MAPPING = "SAVE_MAPPING";
 
 //field

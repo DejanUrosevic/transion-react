@@ -33,7 +33,11 @@ class MappingNewPage extends React.Component {
 
     loadFields = () => {
         var self = this;
-        this.props.selectFieldForMapping()
+        var type = this.props.match.params.type
+        var mappingtype = {
+            type: type.toUpperCase()
+        };
+        this.props.selectFieldForMapping(mappingtype)
             .then(function(response){
                 var items = self.state.items;
                 var fields = self.state.fields;
@@ -54,9 +58,10 @@ class MappingNewPage extends React.Component {
     }
 
     saveMapping(){
+        var type = this.props.match.params.type
         var mapping = {
             label: this.state.label,
-            type: 'CLIENT',
+            type: type.toUpperCase(),
             fields: this.state.items
         }
         this.props.saveMapping(mapping)
@@ -77,7 +82,6 @@ class MappingNewPage extends React.Component {
       return (
         <div className = "b2">
             <Header />
-            
             <div className="container-fluid">  
                 <div className="panel-group text-center" style={{backgroundColor:'white'}}>
                     <div className="panel panel-default">

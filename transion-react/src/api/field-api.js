@@ -3,10 +3,10 @@ import { fieldUrl } from '../url';
 
 export default {
     field : {
-        getAll: function(){
+        getAll: function(mappingtype){
             axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
             
-            return axios.get(fieldUrl + "/fields")
+            return axios.get(fieldUrl + "/fields/"+mappingtype.type)
                 .then(function(response){
                     return response.data;
                 })

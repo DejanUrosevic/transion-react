@@ -4,11 +4,14 @@ import { mappingUrl } from '../url';
 export default {
     
     mapping : {
-        getAll: () =>{
+        getAll: function(){
             axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
-            axios.get(mappingUrl)
+            return axios.get(mappingUrl)
                 .then(function(response){
                     return response.data;
+                })
+                .catch(error => {
+                    console.log(error)
                 })
         },
         
