@@ -4,6 +4,7 @@ import LoginPage from './component/pages/LoginPages';
 import HomePage from './component/pages/HomePage';
 import MappingPage from './component/pages/MappingPage';
 import MappingNewPage from './component/pages/MappingNewPage';
+import ClientPage from './component/pages/ClientPage';
 import { Redirect } from 'react-router-dom'; 
 
 class App extends React.Component {
@@ -21,6 +22,9 @@ class App extends React.Component {
         )} />
         <Route path="/mapping/new/:type" exact render={() => (
           t !== null ? <MappingNewPage /> : <Redirect to="/" />
+        )} />
+        <Route path="/client" exact render={() => (
+          t !== null ? <ClientPage /> : <Redirect to="/" />
         )} />
       </div>
     )

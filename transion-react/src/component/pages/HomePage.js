@@ -3,7 +3,7 @@ import Header from '../header';
 import Footer from '../footer';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { newMapping } from '../../action/action';
+import { newMapping, selectClients } from '../../action/action';
 import { Redirect, withRouter } from 'react-router-dom'; 
 
 class HomePage extends React.Component {
@@ -17,6 +17,7 @@ class HomePage extends React.Component {
         this.showNewAgencyMapping = this.showNewAgencyMapping.bind(this);
         this.showNewTransactionMapping = this.showNewTransactionMapping.bind(this);
         this.showAllMapping = this.showAllMapping.bind(this);
+        this.showClient = this.showClient.bind(this);
         this.state = {
             agenciesButtonStyle : {},
             importsButtonStyle: {},
@@ -100,6 +101,11 @@ class HomePage extends React.Component {
         this.props.history.push("/mapping");
     }
 
+    showClient() {
+        this.props.selectClients();
+        this.props.history.push("/client");
+    }
+
     render() {
       return (
         <div className = "b2">
@@ -125,7 +131,7 @@ class HomePage extends React.Component {
 
             <div ref="agencies" id="agencies" align="center" className="animated fadeInDown" style={this.state.agenciesStyle}>
                 <p>
-                    <a href="#" className="btn">List all agencies</a>
+                    <a onClick={this.showClient} className="btn">List all agencies</a>
                     <a href="#" className="btn btn-blue">Find agency</a>
                     <a href="#" className="btn btn-red">Transactions</a>
                     <a href="#" className="btn btn-green">Search</a>
@@ -168,6 +174,7 @@ class HomePage extends React.Component {
 
 HomePage.PropTypes = {
     newMapping: PropTypes.func.isRequired,
+    selectClients: PropTypes.func.isRequired
 }
 
-export default withRouter(connect(null, { newMapping })(HomePage));
+export default withRouter(connect(null, { newMapping, selectClients })(HomePage));
