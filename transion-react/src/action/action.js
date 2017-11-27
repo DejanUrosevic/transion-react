@@ -93,7 +93,6 @@ export const selectFieldForMapping = (mappingtype) => dispatch =>
         });
  
 //CLIENT
-
 export const selectClientsOnLetter = (letter) => dispatch =>
     clientApi.client.getByLetters(letter)
         .then(function(response){

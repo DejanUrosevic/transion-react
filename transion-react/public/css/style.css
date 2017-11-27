@@ -904,3 +904,16 @@ table, th, td {
 	height: 150px;
   	border-left: 2px solid #699DB6;
 }
+
+
+div.letters {
+	background: #FFF;
+	border: 1px solid black;
+}
+
+div.letters:hover {
+	background-color: lightcyan;
+}
+div.letters.clicked {
+	background-color: rgb(20, 87, 87);
+}
