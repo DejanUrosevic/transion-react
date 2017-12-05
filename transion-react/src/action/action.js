@@ -1,9 +1,12 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT, NEW_MAPPING, SELECT_FIELDS_FOR_MAPPING,
-    SAVE_MAPPING, ALL_MAPPINGS, SELECT_CLIENTS, SELECT_CLIENTS_ON_LETTER} from '../types';
+import { USER_LOGGED_IN, USER_LOGGED_OUT, 
+    NEW_MAPPING, SELECT_FIELDS_FOR_MAPPING, SAVE_MAPPING, ALL_MAPPINGS, 
+    SELECT_CLIENTS, SELECT_CLIENTS_ON_LETTER,
+    SHOW_ALL_IMPORTS, IMPORT_STATE, NEW_IMPORT } from '../types';
 import userApi from '../api/user-api';
 import mappingApi from '../api/mapping-api';
 import fieldApi from '../api/field-api';
 import clientApi from '../api/client-api';
+import importApi from '../api/import-api';
 
 //USER
 export const userLoggedIn = (user) => ({
@@ -18,7 +21,6 @@ export const userLoggedOut = () => ({
 //MAPPING
 export const newMappingAction = () => ({
     type: NEW_MAPPING
-    
 });
 
 export const saveMappingAction = (mapping) => ({
@@ -45,6 +47,20 @@ export const selectClientsOnLetterAction = (clients) => ({
     type: SELECT_CLIENTS_ON_LETTER,
     clients
 });
+
+//IMPORT
+export const selectAllImportAction = (imports) => ({
+    type: SHOW_ALL_IMPORTS,
+    imports
+})
+
+export const importStateAction = () => ({
+    type: IMPORT_STATE
+})
+
+export const newImport = () => ({
+    type: NEW_IMPORT
+})
 
 //********************************************************** 
 //ACTIONS
@@ -103,3 +119,21 @@ export const selectClientsOnLetter = (letter) => dispatch =>
 export const selectClients = () => dispatch => {
     dispatch(selectClientsAction());
 }
+
+//IMPORT
+export const importState = () => dispatch => {
+    dispatch(importStateAction());
+}
+
+export const selectAllImport = () => dispatch =>
+    importApi.import.getAll()
+        .then(function(response){
+            dispatch(selectAllImportAction(response));
+            return response;
+        });
+
+export const saveImport = (data) => dispatch =>
+    importApi.import.saveImport(data)
+        .then(function(response){
+            dispatch(newImport());
+        })

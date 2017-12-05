@@ -5,6 +5,7 @@ import HomePage from './component/pages/HomePage';
 import MappingPage from './component/pages/MappingPage';
 import MappingNewPage from './component/pages/MappingNewPage';
 import ClientPage from './component/pages/ClientPage';
+import ImportPage from './component/pages/ImportPage';
 import { Redirect } from 'react-router-dom'; 
 
 class App extends React.Component {
@@ -25,6 +26,9 @@ class App extends React.Component {
         )} />
         <Route path="/client" exact render={() => (
           t !== null ? <ClientPage /> : <Redirect to="/" />
+        )} />
+        <Route path="/import" exact render={() => (
+          t !== null ? <ImportPage /> : <Redirect to="/" />
         )} />
       </div>
     )

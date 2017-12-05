@@ -3,7 +3,7 @@ import Header from '../header';
 import Footer from '../footer';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { newMapping, selectClients } from '../../action/action';
+import { newMapping, selectClients, importState } from '../../action/action';
 import { Redirect, withRouter } from 'react-router-dom'; 
 
 class HomePage extends React.Component {
@@ -18,6 +18,7 @@ class HomePage extends React.Component {
         this.showNewTransactionMapping = this.showNewTransactionMapping.bind(this);
         this.showAllMapping = this.showAllMapping.bind(this);
         this.showClient = this.showClient.bind(this);
+        this.showAllImport = this.showAllImport.bind(this);
         this.state = {
             agenciesButtonStyle : {},
             importsButtonStyle: {},
@@ -89,12 +90,12 @@ class HomePage extends React.Component {
 
     showNewAgencyMapping() {
         this.props.newMapping();
-        this.props.history.push("/mapping/new/" + "client");
+        this.props.history.push("/mapping/new/client");
     }
 
     showNewTransactionMapping() {
         this.props.newMapping();
-        this.props.history.push("/mapping/new/" + "transaction");
+        this.props.history.push("/mapping/new/transaction");
     }
 
     showAllMapping() {
@@ -104,6 +105,11 @@ class HomePage extends React.Component {
     showClient() {
         this.props.selectClients();
         this.props.history.push("/client");
+    }
+
+    showAllImport() {
+        this.props.importState();
+        this.props.history.push("/import");
     }
 
     render() {
@@ -118,11 +124,11 @@ class HomePage extends React.Component {
             <div className="row">
                 <div align="center" className="animated fadeInUp">
                     <p>
-                        <a ref={(input) => { this.textInput = input; }} href="#" className="btn" style={this.state.agenciesButtonStyle} onClick={this.showAgencies}>Agencies</a>  
-                        <a ref="importsButton" href="#" className="btn btn-blue" style={this.state.importsButtonStyle} onClick={this.showImports} >Import</a>
-                        <a href="#" className="btn btn-red">Export</a>
-                        <a href="#" className="btn btn-green">Tables</a>
-                        <a href="#" className="btn btn-green" style={this.state.configurationButton} onClick={this.showConfiguration} >Configurations</a>
+                        <a ref={(input) => { this.textInput = input; }} className="btn" style={this.state.agenciesButtonStyle} onClick={this.showAgencies}>Agencies</a>  
+                        <a ref="importsButton" className="btn btn-blue" style={this.state.importsButtonStyle} onClick={this.showImports} >Import</a>
+                        <a className="btn btn-red">Export</a>
+                        <a className="btn btn-green">Tables</a>
+                        <a className="btn btn-green" style={this.state.configurationButton} onClick={this.showConfiguration} >Configurations</a>
                     </p>	
                 </div>
             </div>
@@ -132,29 +138,27 @@ class HomePage extends React.Component {
             <div ref="agencies" id="agencies" align="center" className="animated fadeInDown" style={this.state.agenciesStyle}>
                 <p>
                     <a onClick={this.showClient} className="btn">List all agencies</a>
-                    <a href="#" className="btn btn-blue">Find agency</a>
-                    <a href="#" className="btn btn-red">Transactions</a>
-                    <a href="#" className="btn btn-green">Search</a>
-                    <a href="#" className="btn btn-green">Search</a>
-                    <a href="#" className="btn btn-green">Search</a>
+                    <a className="btn btn-blue">Find agency</a>
+                    <a className="btn btn-red">Transactions</a>
+                    <a className="btn btn-green">Search</a>
                 </p>	
             </div>
 
             <div ref="imports" id="imports" align="center" className="animated fadeInDown" style={this.state.importsStyle}>
                 <p>
-                    <a href="#" className="btn">List all imports</a>
-                    <a href="#" className="btn btn-blue">Import new file</a>
-                    <a href="#" className="btn btn-red">Something else</a>
-                    <a href="#" className="btn btn-green">Search</a>
+                    <a className="btn">List all imports</a>
+                    <a className="btn btn-blue">Import new file</a>
+                    <a className="btn btn-red">Something else</a>
+                    <a className="btn btn-green">Search</a>
                 </p>	
             </div>
 
             <div id="configurations" align="center" className="animated fadeInDown" style={this.state.configurationsStyle} >
                 <p>
-                    <a href="#" className="btn" onClick={this.showMappings} >Mapping</a>
-                    <a href="#" className="btn btn-blue">Import new file</a>
-                    <a href="#" className="btn btn-red">Something else</a>
-                    <a href="#" className="btn btn-green">Search</a>
+                    <a className="btn" onClick={this.showMappings} >Mapping</a>
+                    <a className="btn btn-blue" onClick={this.showAllImport}>Import new file</a>
+                    <a className="btn btn-red">Something else</a>
+                    <a className="btn btn-green">Search</a>
                 </p>
             </div>
 
@@ -174,7 +178,8 @@ class HomePage extends React.Component {
 
 HomePage.PropTypes = {
     newMapping: PropTypes.func.isRequired,
-    selectClients: PropTypes.func.isRequired
+    selectClients: PropTypes.func.isRequired,
+    importState: PropTypes.func.isRequired
 }
 
-export default withRouter(connect(null, { newMapping, selectClients })(HomePage));
+export default withRouter(connect(null, { newMapping, selectClients, importState })(HomePage));

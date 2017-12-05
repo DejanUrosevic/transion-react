@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectClientsOnLetter } from '../../action/action';
 
-class ClientPage extends React.Component{
+class ClientPage extends React.Component {
 
     constructor(props){
         super(props);
@@ -36,15 +36,6 @@ class ClientPage extends React.Component{
 
     selectAgencies(selectedRow, selectedLetter){
         this.setState({selectedRow: selectedRow});
-        var clients = [];
-        /*this.props.selectClientsOnLetter(String.fromCharCode(selectedLetter))
-            .then(function(response){
-                for(var i = 0; i < response.length; i++){
-                    clients.push(response[i]);
-                }
-
-                me.setState({clients: clients});
-            })*/
         this.props.selectClientsOnLetter(selectedLetter)
             .then((response) => {
                 this.setState({clients: response})
@@ -68,7 +59,7 @@ class ClientPage extends React.Component{
                                         this.state.letters.map((letter, i) => {
                                             return(
                                                 <div key={i} 
-                                                    className={`col-sm-1 col-md-1 col-lg-1 letters ${i==this.state.selectedRow ? 'clicked': ''}`}
+                                                    className={`col-sm-1 col-md-1 col-lg-1 letters ${i===this.state.selectedRow ? 'clicked': ''}`}
                                                     style={this.state.letterCss}
                                                     onClick={() => this.selectAgencies(i, letter)}>	
                                                     &nbsp;&nbsp;<h2> {letter} </h2>    
@@ -82,14 +73,14 @@ class ClientPage extends React.Component{
                         </div>
                     </div>
                         <br/>
-                    {this.state.selectedRow != -1 && 
+                    {this.state.selectedRow !== -1 && 
                         <div className="row">
                             <div className="col-sm-12 col-md-12 col-lg-12 animated fadeInUp">
                                 <hr className="style13 animated fadeInDown"/>
                             </div>
                         </div>
                     }
-                    {this.state.selectedRow != -1 && 
+                    {this.state.selectedRow !== -1 && 
                         <div className="col-md-4 col-md-offset-4 animated fadeInUp">
                             <div className="panel panel-info">
                                 <div className="panel-heading text-center">
@@ -97,7 +88,7 @@ class ClientPage extends React.Component{
                                 </div>
                                 <br/>
 
-                                {this.state.clients.length == 0 &&
+                                {this.state.clients.length === 0 &&
                                     <div align="center" className="alert alert-info animated fadeInDown">There are no clients.</div>
 
                                 }
