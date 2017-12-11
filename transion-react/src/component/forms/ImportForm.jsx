@@ -42,7 +42,8 @@ class ImportForm extends React.Component{
     }
 
     _onChangeUpload(e){
-        this.setState({file:e.target.value});
+        console.log(e.target.files[0]);
+        this.setState({file:e.target.files[0]});
     }
 
     saveNewImport(){
