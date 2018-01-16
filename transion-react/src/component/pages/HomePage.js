@@ -4,6 +4,7 @@ import Footer from '../footer';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { newMapping, selectClients, importState } from '../../action/action';
+import { createInvoice } from '../../action/actionClient';
 import { Redirect, withRouter } from 'react-router-dom'; 
 
 class HomePage extends React.Component {
@@ -107,6 +108,11 @@ class HomePage extends React.Component {
         this.props.history.push("/client");
     }
 
+    clientCreateInvoice = () => {
+        this.props.createInvoice();
+        this.props.history.push("/client/newinvoice");
+    }
+
     showAllImport() {
         this.props.importState();
         this.props.history.push("/import");
@@ -124,11 +130,15 @@ class HomePage extends React.Component {
             <div className="row">
                 <div align="center" className="animated fadeInUp">
                     <p>
-                        <a ref={(input) => { this.textInput = input; }} className="btn" style={this.state.agenciesButtonStyle} onClick={this.showAgencies}>Agencies</a>  
-                        <a ref="importsButton" className="btn btn-blue" style={this.state.importsButtonStyle} onClick={this.showImports} >Import</a>
-                        <a className="btn btn-red">Export</a>
-                        <a className="btn btn-green">Tables</a>
-                        <a className="btn btn-green" style={this.state.configurationButton} onClick={this.showConfiguration} >Configurations</a>
+                        <a ref={(input) => { this.textInput = input; }} className="btn transitionEl" style={this.state.agenciesButtonStyle} onClick={this.showAgencies}><i className="fa fa-users" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Klijenti</a>  
+                        <a className="btn btn-red transitionEl"><i class="fa fa-file-text" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Fakture  </a>
+                        <a className="btn btn-red transitionEl"><i class="fa fa-upload" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Knjiga izdatih računa  </a>
+                        <a className="btn btn-blue transitionEl"><i class="fa fa-upload" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Knjiga primljenih računa  </a>
+                        <a className="btn btn-blue transitionEl"><i class="fa fa-upload" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Dnevnik knjiženja  </a>
+                        <a className="btn btn-blue transitionEl"><i class="fa fa-upload" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Glavna knjiga  </a>
+                        <a className="btn btn-blue transitionEl"><i class="fa fa-area-chart" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Dijagrami</a>
+                        <a ref="importsButton" className="btn btn-blue transitionEl" style={this.state.importsButtonStyle} onClick={this.showImports} >Import</a>
+                        <a className="btn btn-green transitionEl" style={this.state.configurationButton} onClick={this.showConfiguration} ><i className="fa fa-cogs" aria-hidden="true" style={{fontSize: '18px'}}></i>&nbsp;Podešavanja</a>                    
                     </p>	
                 </div>
             </div>
@@ -137,10 +147,10 @@ class HomePage extends React.Component {
 
             <div ref="agencies" id="agencies" align="center" className="animated fadeInDown" style={this.state.agenciesStyle}>
                 <p>
-                    <a onClick={this.showClient} className="btn">List all agencies</a>
-                    <a className="btn btn-blue">Find agency</a>
-                    <a className="btn btn-red">Transactions</a>
-                    <a className="btn btn-green">Search</a>
+                    <a onClick={this.showClient} className="btn transitionEl">Lista agencija</a>
+                    <a onClick={this.clientCreateInvoice} className="btn btn-blue">Kreiraj fakuru<i className="fa fa-file-text" aria-hidden="true" style={{fontSize: '18px'}}></i></a>
+                    <a className="btn btn-red">Dodaj klijenta</a>
+                    <a className="btn btn-green">Pretraga</a>
                 </p>	
             </div>
 
@@ -172,14 +182,15 @@ class HomePage extends React.Component {
 
             <Footer />
         </div>
-      )
+      );
     }
 }
 
 HomePage.PropTypes = {
     newMapping: PropTypes.func.isRequired,
     selectClients: PropTypes.func.isRequired,
-    importState: PropTypes.func.isRequired
+    importState: PropTypes.func.isRequired,
+    createInvoice: PropTypes.func.isRequired
 }
 
-export default withRouter(connect(null, { newMapping, selectClients, importState })(HomePage));
+export default withRouter(connect(null, { newMapping, selectClients, importState, createInvoice })(HomePage));

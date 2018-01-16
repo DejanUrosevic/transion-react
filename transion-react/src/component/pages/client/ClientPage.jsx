@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Header from '../header';
-import Footer from '../footer';
+import Header from '../../header';
+import Footer from '../../footer';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { selectClientsOnLetter } from '../../action/action';
+import { selectClientsOnLetter } from '../../../action/action';
 
 class ClientPage extends React.Component {
 
