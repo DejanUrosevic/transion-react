@@ -917,3 +917,16 @@ div.letters:hover {
 div.letters.clicked {
 	background-color: rgb(20, 87, 87);
 }
+
+.input-border1 {
+    border: 1px solid whitesmoke;
+    border-style: outset;
+}
+
+.sumTable {
+	float: right;
+	border: 2px outset transparent;
+}
+.sumTable u{
+	font-weight: bold;
+}
